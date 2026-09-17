@@ -44,7 +44,7 @@ app.get("/student", (req: Request, res: Response) => {
   });
 });
 
-app.use("api/v698",userRoute);
+app.use("/api/v698",userRoute);
 app.use("/api/v698/basket",itemRoute);
 
 app.use(notFoundMiddleware);

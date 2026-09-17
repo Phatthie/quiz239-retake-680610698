@@ -16,7 +16,7 @@ import { success } from "zod";
 const router = Router();
 
 // POST /api/vXXX/auth/login
-router.post("/login", (req: CustomRequest, res: Response) => {
+router.post("/login", (req: Request, res: Response) => {
   try { 
     const {username, password} = req.body;
     const user = users.find((u)=> u.userId=== username && u.password===password);
