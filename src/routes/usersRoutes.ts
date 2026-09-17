@@ -19,7 +19,7 @@ const router = Router();
 router.post("/login", (req: Request, res: Response) => {
   try { 
     const {username, password} = req.body;
-    const user = users.find((u)=> u.userId=== username && u.password===password);
+    const user = users.find((u)=> u.username===username && u.password===password);
     if(!user){
       return res.status(401).json({
         success: false,
