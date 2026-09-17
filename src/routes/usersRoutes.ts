@@ -11,15 +11,33 @@ import { authenticateToken } from "../middlewares/authenMiddleware.ts";
 
 // import database
 import { users } from "../db/db.ts";
+import { success } from "zod";
 
 const router = Router();
 
 // POST /api/vXXX/auth/login
-router.post("/login", (req: Request, res: Response) => {
+router.post("/login", (req: CustomRequest, res: Response) => {
   try { 
+    const {username, password} = req.body;
+    const user = users.find((u)=> u.userId=== username && u.password===password);
+    if(!user){
+      return res.status(401).json({
+        success: false,
+        message: "Username or Password is incorrect"
+      });
+    }
+
+    const jwt_secret = process.env.JWT_SECRET || "this_is_my_secret";
+    const token = jwt.sign({
+      username: user.username,
+      password: user.password,
+      userId: user.userId
+    },jwt_secret,{expiresIn:"10m"});
+
     return res.status(200).json({
       success: true,
       message: "Login successful",
+      token: token
     });
   } catch (err) {
     return res.status(500).json({
